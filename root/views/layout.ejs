@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>New Sails App</title>
+
+    <!-- Viewport mobile tag for sensible mobile support -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <!-- Icon Library -->
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+
+    <!--STYLES-->
+    <link rel="stylesheet" href="/styles/style.css">
+    <!--STYLES END-->
+  </head>
+
+  <body>
+    <%- body %>
+
+    <% if (sails.config.environment === 'development') { %>
+      <script src="//localhost:9090/livereload.js"></script>
+    <% } %>
+
+    <% if (typeof script === 'string') { script = 'index'; } %>
+    <script type="text/javascript" src="<%= sails.config.globals.requirejs[sails.config.environment] %>" data-main="/js/<%= script %>.js"></script>
+  </body>
+</html>
