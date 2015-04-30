@@ -13,7 +13,6 @@ requirejs.config({
     'sails'                  : 'vendor/sails.io.js/dist/sails.io',
     'jquery'                 : 'vendor/jquery/dist/jquery',
     'lodash'                 : 'vendor/lodash/dist/lodash',
-    'knockout'               : 'vendor/knockout/dist/knockout',
 
     // foundation deps
     'fastclick'              : 'vendor/foundation/js/vendor/fastclick',
