@@ -23,7 +23,7 @@ module.exports = {
 
       var pageData = {
         user: user,
-        link: 'http://shoplist.scottstadt.com/verify?token=' + token.token
+        link: HttpService.getHost() + '/verify?token=' + token.token
       };
 
       sails.hooks.views.render('email/registration', pageData, function (err, html) {
@@ -34,7 +34,7 @@ module.exports = {
         var to = user.email,
           from = sails.config.email.noreply.address,
           password = sails.config.email.noreply.password,
-          subject = 'Registration Request from shoplist.scottstadt.com',
+          subject = 'Registration Request from ' + HttpService.getHost(),
           message = html;
 
         MailService.send(to, from, password, subject, message, function (err) {
