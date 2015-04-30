@@ -21,7 +21,7 @@
       <script src="//localhost:9090/livereload.js"></script>
     <% } %>
 
-    <% if (typeof script === 'string') { script = 'index'; } %>
+    <% if (typeof script !== 'string') { script = 'index'; } %>
     <script type="text/javascript" src="<%= sails.config.globals.requirejs[sails.config.environment] %>" data-main="/js/<%= script %>.js"></script>
   </body>
 </html>
