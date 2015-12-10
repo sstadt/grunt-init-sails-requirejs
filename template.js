@@ -15,10 +15,10 @@ exports.description = 'Create a new sails.js project with requirejs, foundation,
 exports.notes = 'Follow the prompts below to create a new sails.js project.';
 
 // Template-specific notes to be displayed after question prompts.
-exports.after = 'Project installed! Please run _bower install_ and _npm install_' +
-  'to set up project dependencies. Bower dependencies will be installed to' +
-  'assets/js/vendor by default. For more information on the sails framework,' +
-  'visit _sailsjs.org_.';
+exports.after = 'Project built! Please run *bower install && npm install* ' +
+  'to set up project dependencies. Bower dependencies will be installed to ' +
+  'assets/js/vendor by default. For more information on the sails framework, ' +
+  'visit sailsjs.org.';
 
 // Any existing file or directory matching this wildcard will cause a warning.
 exports.warnOn = '*';

@@ -6,5 +6,4 @@ A rudimentary user, and session controller have also been included to allow for 
 
 TODO
 
- - [ ] Add messaging to the build output reminding the user to `npm install && bower install`
  - [ ] Add a basic user profile once that work is completed in shoplist
