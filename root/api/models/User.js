@@ -1,7 +1,7 @@
 /**
 * User.js
 *
-* @description :: TODO: You might write a short summary of how this model works and what it represents here.
+* @description :: Site users
 * @docs        :: http://sailsjs.org/#!documentation/models
 */
 
@@ -46,20 +46,20 @@ module.exports = {
   beforeCreate: function (values, next) {
     if (!values.password || values.password !== values.confirmation) {
       return next({
-        err: ["Passwords don't match"]
+        err: [ sails.config.notifications.PasswordService.security.error.misMatch ]
       });
     }
 
-    bcrypt.hash(values.password, 10, function passwordEncryption(err, encryptedPassword) {
-      if (err) {
-        return next(err);
-      }
-
-      delete values.password;
-      delete values.confirmation;
-      values.encryptedPassword = encryptedPassword;
-      next();
-    });
+    PasswordService.hashPassword(values.password)
+      .fail(function (err) {
+        next(err);
+      })
+      .done(function (encryptedPassword) {
+        delete values.password;
+        delete values.confirmation;
+        values.encryptedPassword = encryptedPassword;
+        next();
+      });
   }
 };
 

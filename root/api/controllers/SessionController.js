@@ -8,60 +8,34 @@
  * @help        :: See http://links.sailsjs.org/docs/controllers
  */
 
-var bcrypt = require('bcrypt');
+var bcrypt = require('bcrypt'),
+  sessionErrors = sails.config.notifications.SessionController.error;
 
 module.exports = {
 
   'new': function (req, res) {
     res.view({
       title: 'login',
-      script: 'index'
+      script: 'public'
     });
   },
 
   create: function (req, res) {
+    // TODO: cache email/password
 
     if (!req.param('email') || !req.param('password')) {
-      FlashService.error('You must enter both a username and password.');
+      FlashService.error(req, sessionErrors.missingPassword);
       res.redirect('/login');
     } else {
-
-      User.findOne({ email: req.param('email') }, function (err, user) {
-        if (err) {
-          res.serverError('Error retrieving user');
-
-        // If no user is found...
-        } else if (!user) {
-          FlashService.error(req, 'The email address ' + req.param('email') + ' was not found.');
+      PasswordService.validatePassword(req.param('email'), req.param('password'))
+        .then(function resolve(user) {
+          req.session.authenticated = true;
+          req.session.User = user.toJSON();
+          res.redirect('/');
+        }, function reject(err) {
+          FlashService.error(req, err);
           res.redirect('/login');
-
-        // user is not confirmed
-        } else if (user.confirmed !== true) {
-          FlashService.warning(req, 'You must verify your account before logging in.');
-          res.redirect('/login');
-
-        } else {
-
-          // Compare password from the form params to the encrypted password of the user found.
-          bcrypt.compare(req.param('password'), user.encryptedPassword, function (err, valid) {
-            if (err) {
-              FlashService.error(req, 'There was an error logging you in');
-              res.redirect('/login');
-
-            // log user in
-            } else if (valid) {
-              req.session.authenticated = true;
-              req.session.User = user.toJSON();
-              res.redirect('/mylists');
-
-            // If the password from the form doesn't match the password from the database...
-            } else {
-              FlashService.error(req, 'Invalid username and password combination.');
-              res.redirect('/login');
-            }
-          });
-        }
-      });
+        });
     }
 
   },
@@ -69,7 +43,7 @@ module.exports = {
   destroy: function (req, res) {
     User.findOne(req.session.User.id, function foundUser(err) {
       if (err) {
-        res.serverError('Could not find user');
+        res.serverError(sessionErrors.logoutError);
       } else {
         req.session.destroy();
         res.redirect('/login');

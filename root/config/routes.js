@@ -33,8 +33,8 @@ module.exports.routes = {
   ***************************************************************************/
 
   '/': {
-    controller: 'session',
-    action: 'new'
+    controller: 'user',
+    action: 'splash'
   },
 
   /*
