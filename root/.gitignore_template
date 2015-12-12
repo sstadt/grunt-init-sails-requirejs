@@ -68,6 +68,7 @@ config/local.js
 
 node_modules
 bower_components
+assets/js/vendor
 
 
 
@@ -116,3 +117,4 @@ npm-debug.log
 nbproject
 .idea
 .node_history
+.editorconfig
